@@ -311,19 +311,37 @@
     }
 
     /* GANTT */
-    .layout {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 14px;
-    }
+.filters-top-card,
+.mainpanel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
 
-    .sidebar, .mainpanel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
+.filters-top-card {
+  margin-bottom: 14px;
+}
+
+.filters-top {
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 180px;
+  gap: 10px;
+  align-items: center;
+}
+
+.summary-inline {
+  padding: 0 18px 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.fullwidth-panel {
+  width: 100%;
+}
 
     .panel-head {
       padding: 16px 18px;
@@ -508,20 +526,37 @@
       text-align: center;
       color: var(--muted);
     }
+@media (max-width: 1200px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    @media (max-width: 1200px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .layout { grid-template-columns: 1fr; }
-      .roadmap-grid { grid-template-columns: 1fr; }
-      .roadmap { min-width: 100%; }
-      .roadmap-step,
-      .roadmap-step.last {
-        grid-template-columns: 1fr;
-      }
-      .roadmap-arrow {
-        display: none;
-      }
-    }
+  .filters-top {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-inline {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap {
+    min-width: 100%;
+  }
+
+  .roadmap-step,
+  .roadmap-step.last {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-arrow {
+    display: none;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -623,48 +658,53 @@
       </div>
     </section>
 
-    <section class="layout">
-      <aside class="sidebar">
-        <div class="panel-head">
-          <div class="panel-title">Filtros y resumen</div>
-          <div class="panel-sub">Selecciona una fase o responsable para focalizar la presentación.</div>
-        </div>
-        <div class="filters">
-          <input id="searchInput" type="text" placeholder="Buscar actividad o responsable" />
-          <select id="ownerFilter"><option value="">Todos los responsables</option></select>
-          <select id="phaseFilter"><option value="">Todas las fases</option></select>
-          <button id="resetBtn">Limpiar filtros</button>
-        </div>
-        <div class="summary-list">
-          <div class="summary-item">
-            <div class="k">Enfoque</div>
-            <div class="v">Vista ejecutiva de alto nivel</div>
-          </div>
-          <div class="summary-item">
-            <div class="k">Contenido visible</div>
-            <div class="v">Actividad + responsable + cronograma</div>
-          </div>
-          <div class="summary-item">
-            <div class="k">Uso recomendado</div>
-            <div class="v">Rectoría, comité y presentaciones</div>
-          </div>
-        </div>
-      </aside>
+<section class="filters-top-card">
+  <div class="panel-head">
+    <div class="panel-title">Filtros y resumen</div>
+    <div class="panel-sub">Selecciona una fase o responsable para focalizar la presentación.</div>
+  </div>
 
-      <section class="mainpanel">
-        <div class="panel-head">
-          <div class="panel-title">Cronograma ejecutivo</div>
-          <div class="panel-sub">Desplaza horizontalmente para revisar el horizonte completo.</div>
-        </div>
-        <div class="table-wrap">
-          <table id="ganttTable">
-            <thead id="ganttHead"></thead>
-            <tbody id="ganttBody"></tbody>
-          </table>
-          <div class="empty" id="emptyState">No se encontraron resultados con los filtros aplicados.</div>
-        </div>
-      </section>
-    </section>
+  <div class="filters-top">
+    <input id="searchInput" type="text" placeholder="Buscar actividad o responsable" />
+    <select id="ownerFilter">
+      <option value="">Todos los responsables</option>
+    </select>
+    <select id="phaseFilter">
+      <option value="">Todas las fases</option>
+    </select>
+    <button id="resetBtn">Limpiar filtros</button>
+  </div>
+
+  <div class="summary-inline">
+    <div class="summary-item">
+      <div class="k">Enfoque</div>
+      <div class="v">Vista ejecutiva de alto nivel</div>
+    </div>
+    <div class="summary-item">
+      <div class="k">Contenido visible</div>
+      <div class="v">Actividad + responsable + cronograma</div>
+    </div>
+    <div class="summary-item">
+      <div class="k">Uso recomendado</div>
+      <div class="v">Rectoría, comité y presentaciones</div>
+    </div>
+  </div>
+</section>
+
+<section class="mainpanel fullwidth-panel">
+  <div class="panel-head">
+    <div class="panel-title">Cronograma ejecutivo</div>
+    <div class="panel-sub">Desplaza horizontalmente para revisar el horizonte completo.</div>
+  </div>
+  <div class="table-wrap">
+    <table id="ganttTable">
+      <thead id="ganttHead"></thead>
+      <tbody id="ganttBody"></tbody>
+    </table>
+    <div class="empty" id="emptyState">No se encontraron resultados con los filtros aplicados.</div>
+  </div>
+</section>
+    
   </main>
 
   <script>
