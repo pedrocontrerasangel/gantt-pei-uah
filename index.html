@@ -4,8 +4,575 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carta Gantt PEI 2026</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --navy: #123056;
+      --navy-2: #21446d;
+      --orange: #d97706;
+      --orange-soft: #fff3e6;
+      --phase: #eef7f1;
+      --phase-border: #cfe7d6;
+      --shadow: 0 10px 30px rgba(18,48,86,.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f7f8fb 0%, #f1f4f9 100%);
+      color: var(--text);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f5b6f 0%, #123056 100%);
+      color: white;
+      padding: 28px 24px;
+    }
+
+    .hero-inner {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      color: rgba(255,255,255,.82);
+      font-size: 15px;
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .controls {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 150px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .controls input, .controls select {
+      width: 100%;
+      border: 1px solid #d6dbe4;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      background: white;
+    }
+
+    .controls input:focus, .controls select:focus {
+      border-color: #efb46b;
+      box-shadow: 0 0 0 4px rgba(217,119,6,.12);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 14px 16px;
+    }
+
+    .card .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .card .value {
+      margin-top: 6px;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .gantt-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fffaf5;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #7c5b2d;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 0 0 0 3px rgba(217,119,6,.12);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 78vh;
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 2200px;
+      width: max-content;
+      font-size: 12px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--navy);
+      color: white;
+      border-right: 1px solid rgba(255,255,255,.08);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      padding: 10px 8px;
+      white-space: nowrap;
+    }
+
+    thead tr.months th {
+      background: var(--navy-2);
+      font-size: 11px;
+      letter-spacing: .04em;
+    }
+
+    tbody td {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: white;
+      padding: 10px 10px;
+      vertical-align: top;
+    }
+
+    tbody tr:hover td {
+      background: #fcfcfd;
+    }
+
+    .phase-row td {
+      background: var(--phase) !important;
+      color: #254934;
+      font-weight: 700;
+      border-bottom: 1px solid var(--phase-border);
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+
+    .sticky-col {
+      position: sticky;
+      background: inherit;
+      z-index: 3;
+    }
+
+    .sticky-head {
+      z-index: 6 !important;
+    }
+
+    .col-activity { left: 0; min-width: 320px; max-width: 320px; }
+    .col-unit { left: 320px; min-width: 200px; max-width: 200px; }
+    .col-days { left: 520px; min-width: 72px; max-width: 72px; text-align: center; }
+    .col-start { left: 592px; min-width: 110px; max-width: 110px; text-align: center; }
+    .col-end { left: 702px; min-width: 110px; max-width: 110px; text-align: center; }
+
+    .activity-title {
+      font-weight: 700;
+      color: #253247;
+      margin-bottom: 4px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .timeline-cell {
+      min-width: 58px;
+      width: 58px;
+      padding: 0;
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(250,251,253,1) 100%);
+    }
+
+    .timeline-cell.year-end {
+      background: linear-gradient(180deg, #fffaf5 0%, #fff6ed 100%);
+    }
+
+    .bar {
+      position: absolute;
+      top: 50%;
+      left: 3px;
+      right: 3px;
+      transform: translateY(-50%);
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 0 4px 12px rgba(217,119,6,.25);
+    }
+
+    .bar.continue-left { border-top-left-radius: 0; border-bottom-left-radius: 0; left: 0; }
+    .bar.continue-right { border-top-right-radius: 0; border-bottom-right-radius: 0; right: 0; }
+
+    .empty-state {
+      padding: 30px;
+      text-align: center;
+      color: var(--muted);
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .controls { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
-  <!-- Se generará una versión final completa descargable en el siguiente paso. -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Carta Gantt PEI 2026</h1>
+      <p>Página dinámica lista para GitHub Pages, construida a partir del archivo Excel adjunto.</p>
+    </div>
+  </section>
+
+  <main class="page">
+    <section class="controls">
+      <input id="searchInput" type="text" placeholder="Buscar actividad o unidad encargada" />
+      <select id="unitFilter">
+        <option value="">Todas las unidades</option>
+      </select>
+      <select id="zoomFilter">
+        <option value="month">Vista mensual</option>
+        <option value="quarter">Vista trimestral</option>
+      </select>
+    </section>
+
+    <section class="stats">
+      <div class="card">
+        <div class="label">Actividades</div>
+        <div class="value" id="statActivities">-</div>
+      </div>
+      <div class="card">
+        <div class="label">Fases</div>
+        <div class="value" id="statPhases">-</div>
+      </div>
+      <div class="card">
+        <div class="label">Inicio del plan</div>
+        <div class="value" id="statStart">-</div>
+      </div>
+      <div class="card">
+        <div class="label">Término del plan</div>
+        <div class="value" id="statEnd">-</div>
+      </div>
+    </section>
+
+    <section class="gantt-shell">
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot"></span><span>Actividad programada</span></div>
+        <div class="legend-item"><span class="legend-dot" style="opacity:.65"></span><span>Acento naranjo sutil</span></div>
+      </div>
+      <div class="table-wrap">
+        <table id="ganttTable">
+          <thead id="ganttHead"></thead>
+          <tbody id="ganttBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState">No se encontraron resultados con los filtros aplicados.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rawData = [{"actividad": "1. ACTUALIZACIÓN DEL PEI", "unidad": "DGD", "dias": 243, "inicio": "2025-12-01", "termino": "2026-08-01"}, {"actividad": "Orientaciones de futuro", "unidad": "Claustro académico", "dias": 1, "inicio": "2026-01-08", "termino": "2026-01-09"}, {"actividad": "Visión/objetivos", "unidad": "Comité de rectoría ampliado", "dias": 60, "inicio": "2026-01-09", "termino": "2026-03-10"}, {"actividad": "Indicadores y metas", "unidad": "Comité de rectoría ampliado", "dias": 31, "inicio": "2026-03-10", "termino": "2026-04-10"}, {"actividad": "Gobernanza del PEI 2030", "unidad": "Comité de rectoría ampliado", "dias": 30, "inicio": "2026-04-10", "termino": "2026-05-10"}, {"actividad": "2. IMPLEMENTACIÓN DEL PEI", "unidad": "DGD", "dias": 1978, "inicio": "2026-08-01", "termino": "2031-12-31"}, {"actividad": "Difusión del PEI", "unidad": "DGD", "dias": 61, "inicio": "2026-06-30", "termino": "2026-08-30"}, {"actividad": "Elaboración del BSC", "unidad": "DPD", "dias": 61, "inicio": "2026-05-13", "termino": "2026-07-13"}, {"actividad": "Seguimiento del PEI semestral proyectos", "unidad": "DPD", "dias": 60, "inicio": "2026-12-01", "termino": "2027-01-30"}, {"actividad": "Seguimiento del PEI anual indicadores", "unidad": "DPD", "dias": 60, "inicio": "2026-12-01", "termino": "2027-01-30"}, {"actividad": "Elaboración reporte PEI anual", "unidad": "DPD", "dias": 60, "inicio": "2026-12-01", "termino": "2027-01-30"}, {"actividad": "3. ACTUALIZACIÓN DE PLANES DE FACULTAD", "unidad": "DPD", "dias": 394, "inicio": "2026-01-01", "termino": "2027-01-30"}, {"actividad": "Reunión FED", "unidad": "DPD", "dias": 11, "inicio": "2026-03-02", "termino": "2026-03-13"}, {"actividad": "Reunión FEN", "unidad": "DPD", "dias": 11, "inicio": "2026-03-16", "termino": "2026-03-27"}, {"actividad": "Reunión FILHUM", "unidad": "DPD", "dias": 11, "inicio": "2026-03-30", "termino": "2026-04-10"}, {"actividad": "Reunión FACSO", "unidad": "DPD", "dias": 11, "inicio": "2026-04-13", "termino": "2026-04-24"}, {"actividad": "Reunión Derecho", "unidad": "DPD", "dias": 11, "inicio": "2026-04-27", "termino": "2026-05-08"}, {"actividad": "Reunión Ingeniería", "unidad": "DPD", "dias": 11, "inicio": "2026-05-11", "termino": "2026-05-22"}, {"actividad": "Reunión Psicología", "unidad": "DPD", "dias": 11, "inicio": "2026-05-25", "termino": "2026-06-05"}, {"actividad": "Seguimiento a la actualización de los planes de facultades", "unidad": "DPD", "dias": 239, "inicio": "2026-06-05", "termino": "2027-01-30"}, {"actividad": "4. FORMULACIÓN CONVENIO DE DESEMPEÑO", "unidad": "Facultades/ departamentos", "dias": 237, "inicio": "2026-06-08", "termino": "2027-01-31"}, {"actividad": "Alineación con la estrategia institucional (PEI)", "unidad": "DPD", "dias": null, "inicio": "2026-06-08", "termino": null}, {"actividad": "Definición de metas e indicadores", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Formulación del Compromiso de Desempeño", "unidad": "VRA/DIPER", "dias": null, "inicio": null, "termino": null}, {"actividad": "Validación y aprobación institucional", "unidad": "Comité de rectoría ampliado", "dias": null, "inicio": null, "termino": null}, {"actividad": "Implementación y acompañamiento", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Seguimiento y monitoreo periódico", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Evaluación del desempeño comprometido", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Retroalimentación y mejora continua", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "5. IMPLEMENTACIÓN DE LOS PLANES DE FACULTAD", "unidad": "Facultades", "dias": 1795, "inicio": "2027-01-31", "termino": "2031-12-31"}, {"actividad": "Seguimiento a la implementación de los planes de facultades", "unidad": "DPD", "dias": 1796, "inicio": "2027-01-30", "termino": "2031-12-31"}, {"actividad": "", "unidad": "2025-11-29 00:00:00", "dias": null, "inicio": null, "termino": null}];
+
+    const isPhase = (row) => /^\d+\./.test((row.actividad || '').trim());
+    const parseDate = (value) => value ? new Date(value + 'T00:00:00') : null;
+    const formatDate = (value) => {
+      if (!value) return '-';
+      const d = parseDate(value);
+      return d.toLocaleDateString('es-CL');
+    };
+    const monthLabel = (date) => date.toLocaleDateString('es-CL', { month: 'short' }).replace('.', '').toUpperCase();
+    const quarterLabel = (date) => 'T' + (Math.floor(date.getMonth() / 3) + 1) + ' ' + date.getFullYear();
+
+    const data = rawData.map(r => ({
+      ...r,
+      isPhase: isPhase(r),
+      startDate: parseDate(r.inicio),
+      endDate: parseDate(r.termino)
+    }));
+
+    const nonPhase = data.filter(d => !d.isPhase && d.startDate && d.endDate);
+    const units = [...new Set(data.filter(d => !d.isPhase).map(d => d.unidad).filter(Boolean))].sort();
+
+    const unitFilter = document.getElementById('unitFilter');
+    const searchInput = document.getElementById('searchInput');
+    const zoomFilter = document.getElementById('zoomFilter');
+    const ganttHead = document.getElementById('ganttHead');
+    const ganttBody = document.getElementById('ganttBody');
+    const emptyState = document.getElementById('emptyState');
+
+    units.forEach(unit => {
+      const option = document.createElement('option');
+      option.value = unit;
+      option.textContent = unit;
+      unitFilter.appendChild(option);
+    });
+
+    const minDate = new Date(Math.min(...nonPhase.map(d => d.startDate.getTime())));
+    const maxDate = new Date(Math.max(...nonPhase.map(d => d.endDate.getTime())));
+
+    document.getElementById('statActivities').textContent = data.filter(d => !d.isPhase).length;
+    document.getElementById('statPhases').textContent = data.filter(d => d.isPhase).length;
+    document.getElementById('statStart').textContent = minDate.toLocaleDateString('es-CL', { month: 'short', year: 'numeric' });
+    document.getElementById('statEnd').textContent = maxDate.toLocaleDateString('es-CL', { month: 'short', year: 'numeric' });
+
+    function generateTimeline(mode) {
+      const items = [];
+      const cursor = new Date(minDate.getFullYear(), mode === 'month' ? minDate.getMonth() : Math.floor(minDate.getMonth()/3)*3, 1);
+
+      while (cursor <= maxDate) {
+        if (mode === 'month') {
+          const start = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+          const end = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
+          items.push({
+            key: `${cursor.getFullYear()}-${cursor.getMonth() + 1}`,
+            label: monthLabel(cursor),
+            group: String(cursor.getFullYear()),
+            start,
+            end
+          });
+          cursor.setMonth(cursor.getMonth() + 1);
+        } else {
+          const qStartMonth = Math.floor(cursor.getMonth()/3)*3;
+          const start = new Date(cursor.getFullYear(), qStartMonth, 1);
+          const end = new Date(cursor.getFullYear(), qStartMonth + 3, 0);
+          items.push({
+            key: `${cursor.getFullYear()}-Q${Math.floor(qStartMonth/3)+1}`,
+            label: quarterLabel(cursor),
+            group: String(cursor.getFullYear()),
+            start,
+            end
+          });
+          cursor.setMonth(cursor.getMonth() + 3);
+        }
+      }
+      return items;
+    }
+
+    function buildHead(timeline) {
+      ganttHead.innerHTML = '';
+      const tr1 = document.createElement('tr');
+      const tr2 = document.createElement('tr');
+      tr2.className = 'months';
+
+      const stickyHeaders = [
+        ['Actividad', 'col-activity'],
+        ['Unidad encargada', 'col-unit'],
+        ['Días', 'col-days'],
+        ['Fecha inicio', 'col-start'],
+        ['Fecha término', 'col-end']
+      ];
+
+      stickyHeaders.forEach(([label, cls]) => {
+        const th = document.createElement('th');
+        th.className = `sticky-col sticky-head ${cls}`;
+        th.rowSpan = 2;
+        th.textContent = label;
+        tr1.appendChild(th);
+      });
+
+      const grouped = timeline.reduce((acc, item) => {
+        acc[item.group] = acc[item.group] || [];
+        acc[item.group].push(item);
+        return acc;
+      }, {});
+
+      Object.entries(grouped).forEach(([year, items]) => {
+        const th = document.createElement('th');
+        th.colSpan = items.length;
+        th.textContent = year;
+        tr1.appendChild(th);
+      });
+
+      timeline.forEach(item => {
+        const th = document.createElement('th');
+        th.textContent = item.label;
+        tr2.appendChild(th);
+      });
+
+      ganttHead.appendChild(tr1);
+      ganttHead.appendChild(tr2);
+    }
+
+    function overlaps(aStart, aEnd, bStart, bEnd) {
+      return aStart <= bEnd && aEnd >= bStart;
+    }
+
+    function filterData() {
+      const q = searchInput.value.trim().toLowerCase();
+      const unit = unitFilter.value;
+      const out = [];
+
+      let currentPhase = null;
+      let phaseHasChildren = false;
+
+      function flushPhase() {
+        if (currentPhase && phaseHasChildren) out.push(currentPhase);
+      }
+
+      data.forEach(row => {
+        if (row.isPhase) {
+          flushPhase();
+          currentPhase = row;
+          phaseHasChildren = false;
+          return;
+        }
+
+        const text = `${row.actividad} ${row.unidad}`.toLowerCase();
+        const matchesSearch = !q || text.includes(q);
+        const matchesUnit = !unit || row.unidad === unit;
+
+        if (matchesSearch && matchesUnit) {
+          if (currentPhase && !phaseHasChildren) phaseHasChildren = true;
+          out.push(row);
+        }
+      });
+
+      if (currentPhase && phaseHasChildren) {
+        const phaseIndex = data.lastIndexOf(currentPhase);
+        const alreadyIncluded = out.includes(currentPhase);
+        if (!alreadyIncluded) {
+          const idx = out.findIndex(r => !r.isPhase && data.indexOf(r) > phaseIndex);
+          if (idx === -1) out.push(currentPhase);
+          else out.splice(idx, 0, currentPhase);
+        }
+      }
+
+      // restore correct phase ordering
+      const finalRows = [];
+      let lastPhase = null;
+      data.forEach(src => {
+        if (src.isPhase && out.includes(src)) {
+          finalRows.push(src);
+          lastPhase = src;
+        } else if (!src.isPhase && out.includes(src)) {
+          if (lastPhase && !finalRows.includes(lastPhase)) finalRows.push(lastPhase);
+          finalRows.push(src);
+        }
+      });
+
+      return finalRows;
+    }
+
+    function render() {
+      const timeline = generateTimeline(zoomFilter.value);
+      buildHead(timeline);
+
+      const rows = filterData();
+      ganttBody.innerHTML = '';
+
+      if (!rows.length) {
+        emptyState.style.display = 'block';
+        return;
+      }
+      emptyState.style.display = 'none';
+
+      rows.forEach(row => {
+        if (row.isPhase) {
+          const tr = document.createElement('tr');
+          tr.className = 'phase-row';
+          const td = document.createElement('td');
+          td.colSpan = 5 + timeline.length;
+          td.textContent = row.actividad;
+          tr.appendChild(td);
+          ganttBody.appendChild(tr);
+          return;
+        }
+
+        const tr = document.createElement('tr');
+
+        const cells = [
+          ['activity-title', row.actividad, 'col-activity'],
+          ['', row.unidad || '-', 'col-unit'],
+          ['center', row.dias ?? '-', 'col-days'],
+          ['center', formatDate(row.inicio), 'col-start'],
+          ['center', formatDate(row.termino), 'col-end']
+        ];
+
+        cells.forEach(([extraCls, value, stickyCls]) => {
+          const td = document.createElement('td');
+          td.className = `sticky-col ${stickyCls} ${extraCls}`;
+          if (stickyCls === 'col-activity') {
+            td.innerHTML = `<div class="activity-title">${value}</div>`;
+          } else {
+            td.textContent = value;
+          }
+          tr.appendChild(td);
+        });
+
+        timeline.forEach((slot, index) => {
+          const td = document.createElement('td');
+          td.className = 'timeline-cell' + ((index === timeline.length - 1 || slot.group !== timeline[Math.min(index + 1, timeline.length - 1)].group) ? ' year-end' : '');
+
+          if (row.startDate && row.endDate && overlaps(row.startDate, row.endDate, slot.start, slot.end)) {
+            const bar = document.createElement('div');
+            const startsBefore = row.startDate < slot.start;
+            const endsAfter = row.endDate > slot.end;
+            bar.className = 'bar' + (startsBefore ? ' continue-left' : '') + (endsAfter ? ' continue-right' : '');
+            td.appendChild(bar);
+          }
+
+          tr.appendChild(td);
+        });
+
+        ganttBody.appendChild(tr);
+      });
+    }
+
+    searchInput.addEventListener('input', render);
+    unitFilter.addEventListener('change', render);
+    zoomFilter.addEventListener('change', render);
+
+    render();
+  </script>
 </body>
 </html>
