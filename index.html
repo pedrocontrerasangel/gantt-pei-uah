@@ -3,439 +3,427 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carta Gantt PEI 2026</title>
+  <title>Modelo actualización PEI institucional UAH 2026-2030</title>
   <style>
     :root {
-      --bg: #f6f7fb;
-      --panel: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --navy: #123056;
-      --navy-2: #21446d;
-      --orange: #d97706;
-      --orange-soft: #fff3e6;
-      --phase: #eef7f1;
-      --phase-border: #cfe7d6;
-      --shadow: 0 10px 30px rgba(18,48,86,.08);
+      --bg:#f3f6fb;
+      --panel:#ffffff;
+      --text:#1f2937;
+      --muted:#667085;
+      --line:#e6eaf0;
+      --brand:#123056;
+      --brand-2:#0f5b6f;
+      --accent:#d97706;
+      --accent-soft:#fff4e8;
+      --phase:#eef6f0;
+      --phase-text:#1f5130;
+      --shadow:0 10px 30px rgba(18,48,86,.08);
+      --radius:18px;
     }
-
-    * { box-sizing: border-box; }
+    * { box-sizing:border-box; }
     body {
-      margin: 0;
+      margin:0;
       font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #f7f8fb 0%, #f1f4f9 100%);
-      color: var(--text);
+      background:linear-gradient(180deg,#f7f9fc 0%,#f2f5fa 100%);
+      color:var(--text);
     }
-
     .hero {
-      background: linear-gradient(135deg, #0f5b6f 0%, #123056 100%);
-      color: white;
-      padding: 28px 24px;
+      background:linear-gradient(135deg,var(--brand-2) 0%, var(--brand) 100%);
+      color:white;
+      padding:28px 24px 32px;
     }
-
     .hero-inner {
-      max-width: 1500px;
-      margin: 0 auto;
+      max-width:1800px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:flex-end;
+      flex-wrap:wrap;
     }
-
     .hero h1 {
-      margin: 0;
-      font-size: 32px;
-      line-height: 1.15;
+      margin:0;
+      font-size:34px;
+      line-height:1.08;
+      letter-spacing:-.02em;
     }
-
     .hero p {
-      margin: 8px 0 0;
-      color: rgba(255,255,255,.82);
-      font-size: 15px;
+      margin:10px 0 0;
+      color:rgba(255,255,255,.8);
+      font-size:15px;
     }
-
+    .hero-badge {
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.16);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      white-space:nowrap;
+    }
     .page {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 18px;
+      max-width:1800px;
+      margin:0 auto;
+      padding:18px;
     }
-
-    .controls {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 14px;
-      display: grid;
-      grid-template-columns: 2fr 1fr 150px;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .controls input, .controls select {
-      width: 100%;
-      border: 1px solid #d6dbe4;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 14px;
-      outline: none;
-      background: white;
-    }
-
-    .controls input:focus, .controls select:focus {
-      border-color: #efb46b;
-      box-shadow: 0 0 0 4px rgba(217,119,6,.12);
-    }
-
     .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 14px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:-28px;
+      margin-bottom:14px;
     }
-
     .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 14px 16px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px 18px;
     }
-
     .card .label {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
     }
-
     .card .value {
-      margin-top: 6px;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--navy);
+      margin-top:8px;
+      font-size:28px;
+      font-weight:700;
+      color:var(--brand);
     }
-
-    .gantt-shell {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .toolbar {
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr 160px;
+      gap:12px;
+      align-items:center;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+      margin-bottom:14px;
     }
-
+    .toolbar input, .toolbar select, .toolbar button {
+      width:100%;
+      border:1px solid #d7dde8;
+      border-radius:12px;
+      padding:12px 14px;
+      font-size:14px;
+      background:white;
+      outline:none;
+    }
+    .toolbar button {
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-weight:700;
+      cursor:pointer;
+    }
+    .toolbar input:focus, .toolbar select:focus {
+      border-color:#efb46b;
+      box-shadow:0 0 0 4px rgba(217,119,6,.12);
+    }
+    .shell {
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .shell-head {
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      flex-wrap:wrap;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+    }
+    .shell-title {
+      font-size:18px;
+      font-weight:700;
+      color:var(--brand);
+    }
+    .shell-sub {
+      color:var(--muted);
+      font-size:13px;
+      margin-top:4px;
+    }
     .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      background: #fffaf5;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #7c5b2d;
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fffaf5;
+      border:1px solid #fde7cf;
+      font-size:12px;
+      color:#8a5a16;
     }
-
-    .legend-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      box-shadow: 0 0 0 3px rgba(217,119,6,.12);
+    .dot {
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#f59e0b 0%, #d97706 100%);
     }
-
     .table-wrap {
-      overflow: auto;
-      max-height: 78vh;
+      overflow:auto;
+      max-height:76vh;
     }
-
     table {
-      border-collapse: separate;
-      border-spacing: 0;
-      min-width: 2200px;
-      width: max-content;
-      font-size: 12px;
+      border-collapse:separate;
+      border-spacing:0;
+      min-width:3350px;
+      width:max-content;
+      font-size:12px;
     }
-
     thead th {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      background: var(--navy);
-      color: white;
-      border-right: 1px solid rgba(255,255,255,.08);
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      padding: 10px 8px;
-      white-space: nowrap;
+      position:sticky;
+      top:0;
+      z-index:8;
+      background:var(--brand);
+      color:white;
+      padding:11px 8px;
+      border-right:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      white-space:nowrap;
+      text-align:left;
     }
-
     thead tr.months th {
-      background: var(--navy-2);
-      font-size: 11px;
-      letter-spacing: .04em;
+      background:#21446d;
+      font-size:11px;
+      letter-spacing:.04em;
+      text-align:center;
     }
-
     tbody td {
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      background: white;
-      padding: 10px 10px;
-      vertical-align: top;
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      background:white;
+      padding:10px 10px;
+      vertical-align:top;
+      line-height:1.35;
     }
-
     tbody tr:hover td {
-      background: #fcfcfd;
+      background:#fcfdff;
     }
-
     .phase-row td {
-      background: var(--phase) !important;
-      color: #254934;
-      font-weight: 700;
-      border-bottom: 1px solid var(--phase-border);
-      padding: 12px 14px;
-      font-size: 13px;
+      background:var(--phase)!important;
+      color:var(--phase-text);
+      font-weight:700;
+      font-size:13px;
+      padding:12px 14px;
     }
-
-    .sticky-col {
-      position: sticky;
-      background: inherit;
-      z-index: 3;
+    .sticky {
+      position:sticky;
+      z-index:5;
+      background:inherit;
     }
-
     .sticky-head {
-      z-index: 6 !important;
+      z-index:10 !important;
     }
-
-    .col-activity { left: 0; min-width: 320px; max-width: 320px; }
-    .col-unit { left: 320px; min-width: 200px; max-width: 200px; }
-    .col-days { left: 520px; min-width: 72px; max-width: 72px; text-align: center; }
-    .col-start { left: 592px; min-width: 110px; max-width: 110px; text-align: center; }
-    .col-end { left: 702px; min-width: 110px; max-width: 110px; text-align: center; }
-
-    .activity-title {
-      font-weight: 700;
-      color: #253247;
-      margin-bottom: 4px;
+    .col-a { left:0; min-width:340px; max-width:340px; }
+    .col-b { left:340px; min-width:170px; max-width:170px; }
+    .col-c { left:510px; min-width:500px; max-width:500px; }
+    .col-d { left:1010px; min-width:240px; max-width:240px; }
+    .col-e { left:1250px; min-width:230px; max-width:230px; }
+    .col-f { left:1480px; min-width:220px; max-width:220px; }
+    .col-g { left:1700px; min-width:240px; max-width:240px; }
+    .col-h { left:1940px; min-width:72px; max-width:72px; text-align:center; }
+    .col-i { left:2012px; min-width:110px; max-width:110px; text-align:center; }
+    .col-j { left:2122px; min-width:110px; max-width:110px; text-align:center; }
+    .time-col {
+      min-width:80px;
+      width:80px;
+      padding:0;
+      position:relative;
+      background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
+      text-align:center;
     }
-
-    .muted {
-      color: var(--muted);
+    .year-end {
+      background:linear-gradient(180deg,#fff9f3 0%,#fff6ed 100%);
     }
-
-    .timeline-cell {
-      min-width: 58px;
-      width: 58px;
-      padding: 0;
-      position: relative;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(250,251,253,1) 100%);
-    }
-
-    .timeline-cell.year-end {
-      background: linear-gradient(180deg, #fffaf5 0%, #fff6ed 100%);
-    }
-
+    .activity { font-weight:700; color:#243247; }
     .bar {
-      position: absolute;
-      top: 50%;
-      left: 3px;
-      right: 3px;
-      transform: translateY(-50%);
-      height: 24px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      box-shadow: 0 4px 12px rgba(217,119,6,.25);
+      position:absolute;
+      left:4px;
+      right:4px;
+      top:50%;
+      transform:translateY(-50%);
+      height:24px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#f59e0b 0%, #d97706 100%);
+      box-shadow:0 4px 12px rgba(217,119,6,.22);
     }
-
-    .bar.continue-left { border-top-left-radius: 0; border-bottom-left-radius: 0; left: 0; }
-    .bar.continue-right { border-top-right-radius: 0; border-bottom-right-radius: 0; right: 0; }
-
-    .empty-state {
-      padding: 30px;
-      text-align: center;
-      color: var(--muted);
-      display: none;
+    .mark-chip {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:28px;
+      height:28px;
+      margin:10px auto;
+      border-radius:8px;
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-weight:700;
     }
-
-    @media (max-width: 980px) {
-      .controls { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
+    .center { text-align:center; }
+    .empty {
+      display:none;
+      padding:30px;
+      text-align:center;
+      color:var(--muted);
+    }
+    @media (max-width:1100px) {
+      .stats { grid-template-columns:repeat(2,1fr); }
+      .toolbar { grid-template-columns:1fr; }
+      .hero h1 { font-size:28px; }
     }
   </style>
 </head>
 <body>
   <section class="hero">
     <div class="hero-inner">
-      <h1>Carta Gantt PEI 2026</h1>
-      <p>Página dinámica lista para GitHub Pages, construida a partir del archivo Excel adjunto.</p>
+      <div>
+        <h1>Modelo actualización PEI institucional UAH 2026-2030</h1>
+        <p>Vista ejecutiva y dinámica para seguimiento de hitos, responsables y cronograma.</p>
+      </div>
+      <div class="hero-badge">Lista para GitHub Pages</div>
     </div>
   </section>
 
   <main class="page">
-    <section class="controls">
-      <input id="searchInput" type="text" placeholder="Buscar actividad o unidad encargada" />
-      <select id="unitFilter">
-        <option value="">Todas las unidades</option>
-      </select>
-      <select id="zoomFilter">
-        <option value="month">Vista mensual</option>
-        <option value="quarter">Vista trimestral</option>
-      </select>
-    </section>
-
     <section class="stats">
-      <div class="card">
-        <div class="label">Actividades</div>
-        <div class="value" id="statActivities">-</div>
-      </div>
-      <div class="card">
-        <div class="label">Fases</div>
-        <div class="value" id="statPhases">-</div>
-      </div>
-      <div class="card">
-        <div class="label">Inicio del plan</div>
-        <div class="value" id="statStart">-</div>
-      </div>
-      <div class="card">
-        <div class="label">Término del plan</div>
-        <div class="value" id="statEnd">-</div>
-      </div>
+      <div class="card"><div class="label">Actividades</div><div class="value" id="statActivities">-</div></div>
+      <div class="card"><div class="label">Fases</div><div class="value" id="statPhases">-</div></div>
+      <div class="card"><div class="label">Inicio del plan</div><div class="value" id="statStart">-</div></div>
+      <div class="card"><div class="label">Término del plan</div><div class="value" id="statEnd">-</div></div>
     </section>
 
-    <section class="gantt-shell">
-      <div class="legend">
-        <div class="legend-item"><span class="legend-dot"></span><span>Actividad programada</span></div>
-        <div class="legend-item"><span class="legend-dot" style="opacity:.65"></span><span>Acento naranjo sutil</span></div>
+    <section class="toolbar">
+      <input id="searchInput" type="text" placeholder="Buscar actividad, responsable o participante" />
+      <select id="ownerFilter"><option value="">Todos los responsables</option></select>
+      <select id="phaseFilter"><option value="">Todas las fases</option></select>
+      <button id="resetBtn">Limpiar filtros</button>
+    </section>
+
+    <section class="shell">
+      <div class="shell-head">
+        <div>
+          <div class="shell-title">Seguimiento ejecutivo del plan</div>
+          <div class="shell-sub">Desplaza horizontalmente para revisar el cronograma completo.</div>
+        </div>
+        <div class="legend">
+          <span class="pill"><span class="dot"></span>Actividad programada</span>
+          <span class="pill"><span class="dot" style="opacity:.65"></span>Acento naranjo sutil</span>
+        </div>
       </div>
+
       <div class="table-wrap">
         <table id="ganttTable">
           <thead id="ganttHead"></thead>
           <tbody id="ganttBody"></tbody>
         </table>
-        <div class="empty-state" id="emptyState">No se encontraron resultados con los filtros aplicados.</div>
+        <div class="empty" id="emptyState">No se encontraron resultados con los filtros aplicados.</div>
       </div>
     </section>
   </main>
 
   <script>
-    const rawData = [{"actividad": "1. ACTUALIZACIÓN DEL PEI", "unidad": "DGD", "dias": 243, "inicio": "2025-12-01", "termino": "2026-08-01"}, {"actividad": "Orientaciones de futuro", "unidad": "Claustro académico", "dias": 1, "inicio": "2026-01-08", "termino": "2026-01-09"}, {"actividad": "Visión/objetivos", "unidad": "Comité de rectoría ampliado", "dias": 60, "inicio": "2026-01-09", "termino": "2026-03-10"}, {"actividad": "Indicadores y metas", "unidad": "Comité de rectoría ampliado", "dias": 31, "inicio": "2026-03-10", "termino": "2026-04-10"}, {"actividad": "Gobernanza del PEI 2030", "unidad": "Comité de rectoría ampliado", "dias": 30, "inicio": "2026-04-10", "termino": "2026-05-10"}, {"actividad": "2. IMPLEMENTACIÓN DEL PEI", "unidad": "DGD", "dias": 1978, "inicio": "2026-08-01", "termino": "2031-12-31"}, {"actividad": "Difusión del PEI", "unidad": "DGD", "dias": 61, "inicio": "2026-06-30", "termino": "2026-08-30"}, {"actividad": "Elaboración del BSC", "unidad": "DPD", "dias": 61, "inicio": "2026-05-13", "termino": "2026-07-13"}, {"actividad": "Seguimiento del PEI semestral proyectos", "unidad": "DPD", "dias": 60, "inicio": "2026-12-01", "termino": "2027-01-30"}, {"actividad": "Seguimiento del PEI anual indicadores", "unidad": "DPD", "dias": 60, "inicio": "2026-12-01", "termino": "2027-01-30"}, {"actividad": "Elaboración reporte PEI anual", "unidad": "DPD", "dias": 60, "inicio": "2026-12-01", "termino": "2027-01-30"}, {"actividad": "3. ACTUALIZACIÓN DE PLANES DE FACULTAD", "unidad": "DPD", "dias": 394, "inicio": "2026-01-01", "termino": "2027-01-30"}, {"actividad": "Reunión FED", "unidad": "DPD", "dias": 11, "inicio": "2026-03-02", "termino": "2026-03-13"}, {"actividad": "Reunión FEN", "unidad": "DPD", "dias": 11, "inicio": "2026-03-16", "termino": "2026-03-27"}, {"actividad": "Reunión FILHUM", "unidad": "DPD", "dias": 11, "inicio": "2026-03-30", "termino": "2026-04-10"}, {"actividad": "Reunión FACSO", "unidad": "DPD", "dias": 11, "inicio": "2026-04-13", "termino": "2026-04-24"}, {"actividad": "Reunión Derecho", "unidad": "DPD", "dias": 11, "inicio": "2026-04-27", "termino": "2026-05-08"}, {"actividad": "Reunión Ingeniería", "unidad": "DPD", "dias": 11, "inicio": "2026-05-11", "termino": "2026-05-22"}, {"actividad": "Reunión Psicología", "unidad": "DPD", "dias": 11, "inicio": "2026-05-25", "termino": "2026-06-05"}, {"actividad": "Seguimiento a la actualización de los planes de facultades", "unidad": "DPD", "dias": 239, "inicio": "2026-06-05", "termino": "2027-01-30"}, {"actividad": "4. FORMULACIÓN CONVENIO DE DESEMPEÑO", "unidad": "Facultades/ departamentos", "dias": 237, "inicio": "2026-06-08", "termino": "2027-01-31"}, {"actividad": "Alineación con la estrategia institucional (PEI)", "unidad": "DPD", "dias": null, "inicio": "2026-06-08", "termino": null}, {"actividad": "Definición de metas e indicadores", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Formulación del Compromiso de Desempeño", "unidad": "VRA/DIPER", "dias": null, "inicio": null, "termino": null}, {"actividad": "Validación y aprobación institucional", "unidad": "Comité de rectoría ampliado", "dias": null, "inicio": null, "termino": null}, {"actividad": "Implementación y acompañamiento", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Seguimiento y monitoreo periódico", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Evaluación del desempeño comprometido", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "Retroalimentación y mejora continua", "unidad": "DPD", "dias": null, "inicio": null, "termino": null}, {"actividad": "5. IMPLEMENTACIÓN DE LOS PLANES DE FACULTAD", "unidad": "Facultades", "dias": 1795, "inicio": "2027-01-31", "termino": "2031-12-31"}, {"actividad": "Seguimiento a la implementación de los planes de facultades", "unidad": "DPD", "dias": 1796, "inicio": "2027-01-30", "termino": "2031-12-31"}, {"actividad": "", "unidad": "2025-11-29 00:00:00", "dias": null, "inicio": null, "termino": null}];
+    const timeline = ["MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEPT", "OCT", "NOV", "DIC", "ANUAL", "ANUAL", "ANUAL", "ANUAL"];
+    const rows = [{"isPhase": true, "phase": "1.- DISEÑO DEL PEI INSTITUCIONAL"}, {"isPhase": false, "task": "Preparación de kit planificación institucional", "level": "PEI", "detail": "Elaboración y apoyo indicadores y metas institucionales (apoyar a las unidades en su definición) <br>Elaboración de matriz de tributación de planes de facultad vigentes al PEI<br>Preparación de benchmarks de indicadores clave (con universidades de 6 años de acreditación).<br>Formato y metodología  para talleres de trabajo en facultades en la actualización de sus respectivos PEI<br>Elaboración del Balanced ScoreCard (BSC).", "type": "Trabajo interno Equipo DGD", "product": "Kit de planificación", "owners": "Dirección de Gestión y Desarrollo", "participants": "Unidades centrales (DDPU,VcM, Dirección de Investigación, Finanzas, Operaciones, Cooperación)", "days": "59", "start": "2026-04-01", "end": "2026-05-30", "marks": ["", "X", "X", "", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Levantamiento de información para las facultades", "level": "Planes<br> de facultad", "detail": "Facultades pueden solicitar información adicional al kit de planificación institucional. Esto debe ser entregado a la facultad desde DGD", "type": "Trabajo interno Equipo DGD", "product": "Información adicional", "owners": "Dirección de Gestión y Desarrollo", "participants": "Unidades centrales (DDPU,VcM, Dirección de Investigación, Finanzas, Operaciones, Cooperación)", "days": "90", "start": "2026-04-01", "end": "2026-06-30", "marks": ["", "X", "X", "X", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Definir metodología de trabajo DGD", "level": "PEI", "detail": "Trabajo interno para definir metodología de seguimiento y control del PEI. ", "type": "Trabajo interno Equipo DGD", "product": "Metodología del seguimiento y control del PEI", "owners": "Dirección de Gestión y Desarrollo", "participants": "DAI, Direccción de Planificación", "days": "80", "start": "2026-04-01", "end": "2026-06-20", "marks": ["", "X", "X", "", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación y ajuste de indicadores y metas institucionales 1", "level": "PEI", "detail": "Discusión de propuesta de indicadores y metas institucionales.", "type": "Trabajo equipos DGD - Rectoría", "product": "BSC: Indicadores, metas institucionales y planes de acción del PEI Institucional", "owners": "Comité de Rectoría", "participants": "DGD", "days": "10", "start": "2026-05-10", "end": "2026-05-20", "marks": ["", "X", "", "", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación y ajuste de indicadores y metas institucionales 2", "level": "PEI", "detail": "Discusión de propuesta de indicadores y metas institucionales.", "type": "Trabajo equipos DGD - Rectoría", "product": "BSC: Indicadores, metas institucionales y planes de acción del PEI Institucional", "owners": "Comité de Rectoría", "participants": "DGD", "days": "10", "start": "2026-05-10", "end": "2026-05-20", "marks": ["", "", "X", "", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación y ajuste de indicadores y metas institucionales 3", "level": "PEI", "detail": "Discusión de propuesta de indicadores y metas institucionales.", "type": "Trabajo equipos DGD - Rectoría", "product": "BSC: Indicadores, metas institucionales y planes de acción del PEI Institucional", "owners": "Comité de Rectoría", "participants": "DGD", "days": "10", "start": "2026-05-10", "end": "2026-05-20", "marks": ["", "", "", "X", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación final PEI Central", "level": "PEI", "detail": "Agenda del Consejo Académico:<br>29 abril: Lineas de acción y estrategias del PEI.<br>27 mayo: Validación de indicadores y metas.", "type": "Sesiones de validación", "product": "PEI Central validado", "owners": "Consejo Académico", "participants": "DGD", "days": "1", "start": "2026-05-27", "end": "2026-05-27", "marks": ["", "", "", "X", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": true, "phase": "2.- DISEÑO DE LOS PLANES DE FACULTAD"}, {"isPhase": false, "task": "Presentación rediseño PEI UAH y plan de trabajo con las facultades (Kick-off)", "level": "Planes<br> de facultad", "detail": "Presentación de metodologías de trabajo. Se propone reunión online donde se citarán a todas las facultades.", "type": "Reunión informativa para facultades", "product": "PPT del Kick off", "owners": "Dirección de Gestión y Desarrollo", "participants": "Todas las facultades", "days": "10", "start": "2026-06-20", "end": "2026-06-30", "marks": ["", "", "", "X", "", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Taller N° 1 plan de facultad", "level": "Planes<br> de facultad", "detail": "Discusión y preparación de entregable 1: Diagnóstico, prioridades y apuestas estratégicas<br>Insumo: Cruce entre el PEI y el Plan de Facultad vigente", "type": "Reunión de trabajo con facultades", "product": "Entrega de kit de planificación", "owners": "Consejo de Facultad", "participants": "DGD", "days": "29", "start": "2026-07-01", "end": "2026-07-30", "marks": ["", "", "", "", "X", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Trabajo interno de facultad", "level": "Planes<br> de facultad", "detail": "Trabajo autonomo e interno por cada facultada para la revisión detallada de sus respectivos PEI, focos y prioridades. Con el apoyo y disposición del equipo DGD para información, datos, documentación.", "type": "Trabajo interno de facultad", "product": "Borrador del entregable 1", "owners": "Decanatura", "participants": "Abierto a la convocatoria de la Facultad", "days": "", "start": "2026-07-30", "end": "", "marks": ["", "", "", "", "X", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Taller N° 2 plan de facultad", "level": "Planes<br> de facultad", "detail": "Discusión y preparación de entregable 1: Alineamiento con Plan Institucional, objetivos y acciones comprometidas", "type": "Reunión de trabajo con facultades", "product": "Entregable 1 ", "owners": "Consejo de Facultad", "participants": "DGD", "days": "29", "start": "2026-07-01", "end": "2026-07-30", "marks": ["", "", "", "", "X", "", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Formulación Técnica del Plan de Facultad", "level": "Planes<br> de facultad", "detail": "Preparación de entregable 2: Plan de Facultad", "type": "Trabajo interno colaborativo de  facultad", "product": "Borrador del plan  de facultad: Matriz de estrategia, KPI y meta institucional", "owners": "Comité Técnico de Facultad / Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "29", "start": "2026-08-01", "end": "2026-08-30", "marks": ["", "", "", "", "", "X", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Valorización Preliminar del Plan de Facultad", "level": "Planes<br> de facultad", "detail": "Valorización del Plan de Facultad", "type": "Trabajo interno de facultad", "product": "Plan de facultad valorizado", "owners": "Dirección Administrativa Facultad/ VRAF", "participants": "No aplica", "days": "29", "start": "2026-08-01", "end": "2026-08-30", "marks": ["", "", "", "", "", "X", "", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación de la propuesta de Plan de Facultad", "level": "Planes<br> de facultad", "detail": "Revisión del contenido del Plan considerando su coherencia interna, prioridades y principales líneas de acción incluyendo su costeo", "type": "Sesiones de validación", "product": "Plan de facultad aprobado", "owners": "Consejo de Facultad", "participants": "No aplica", "days": "14", "start": "2026-09-01", "end": "2026-09-15", "marks": ["", "", "", "", "", "", "X", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Análisis agregado de las propuestas de planes de facultad", "level": "Planes<br> de facultad", "detail": "Entregable 3: Revisión comparada de los planes de facultad para verificar su articulación con el Plan Institucional, consistencia entre objetivos, indicadores y metas e identificación de ajustes requeridos. Factibilidad presupuestaria", "type": "Trabajo interno DGD", "product": "Entregable 3", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "46", "start": "2026-09-15", "end": "2026-10-31", "marks": ["", "", "", "", "", "", "X", "X", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Revisión de factibilidad presupuestaria y asignación preliminar de recursos", "level": "Planes<br> de facultad", "detail": "Revisión técnica del costeo presentado por las facultades<br>Contraste entre requerimientos financieros y disponibilidad/proyección de recursos Análisis de factibilidad de las iniciativas, según plazos de implementación", "type": "Sesiones de revisión", "product": "Plan de Facultad revisado", "owners": "Vicerrectoría de Administración y Finanzas", "participants": "No aplica", "days": "46", "start": "2026-09-15", "end": "2026-10-31", "marks": ["", "", "", "", "", "", "X", "X", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Consolidación de observaciones y ajuste final de planes de facultad", "level": "Planes<br> de facultad", "detail": "Validación de coherencia institucional y priorización", "type": "Sesiones de revisión", "product": "Plan de Facultad validado", "owners": "Comité de rectoría", "participants": "No aplica", "days": "9", "start": "2026-11-01", "end": "2026-11-10", "marks": ["", "", "", "", "", "", "X", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación y ajuste de Plan de Facultad", "level": "Planes<br> de facultad", "detail": "Ajuste del plan en base a la factibilidad técnica y económica ", "type": "Sesiones de revisión", "product": "Plan de Facultad validado", "owners": "DGD - CAE - Decanatura", "participants": "VRAF", "days": "", "start": "", "end": "", "marks": ["", "", "", "", "", "", "X", "", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación Institucional de los Planes de Facultad", "level": "Planes<br> de facultad", "detail": "Validación de consistencia institucional", "type": "Sesiones de revisión", "product": "Plan de Facultad validado", "owners": "Consejo Académico", "participants": "Decanaturas / DGD", "days": "19", "start": "2026-11-11", "end": "2026-11-30", "marks": ["", "", "", "", "", "", "X", "X", "", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación 1  PEI", "level": "PEI<br> institucional", "detail": "Validación de consistencia institucional", "type": "Sesiones de revisión", "product": "Plan de Facultad validado", "owners": "Por definir", "participants": "Por definir", "days": "29", "start": "2026-11-01", "end": "2026-11-30", "marks": ["", "", "", "", "", "", "", "", "X", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación 2 PEI", "level": "PEI<br> institucional", "detail": "Validación de consistencia institucional", "type": "Sesiones de revisión", "product": "Plan de Facultad validado", "owners": "Por definir", "participants": "Por definir", "days": "29", "start": "2026-11-01", "end": "2026-11-30", "marks": ["", "", "", "", "", "", "", "", "X", "", "", "", "", ""]}, {"isPhase": false, "task": "Validación 3 PEI", "level": "PEI<br> institucional", "detail": "Validación de consistencia institucional", "type": "Sesiones de revisión", "product": "Plan de Facultad APROBADO", "owners": "Directorio UAH", "participants": "No aplica", "days": "29", "start": "2026-12-01", "end": "2026-12-30", "marks": ["", "", "", "", "", "", "", "", "", "X", "", "", "", ""]}, {"isPhase": false, "task": "Difusión del PEI Institucional y Planes de Facultad", "level": "PEI<br> institucional", "detail": "Difusión del PEI Institucional y de Planes de Facultad", "type": "Difusión", "product": "PEI y Planes de Facultades difundidos", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "60", "start": "2026-12-01", "end": "2027-01-30", "marks": ["", "", "", "", "", "", "", "", "", "X", "X", "", "", ""]}, {"isPhase": true, "phase": "3.- IMPLEMENTACIÓN Y SEGUIMIENTO"}, {"isPhase": false, "task": "Implementación de las lineas de acción intitucionales y de facultades", "level": "Planes<br> de facultad", "detail": "Las facultades dan curso de las lineas de acción definidas en cada uno de sus planes de acción. DGD apoya si es necesario en orientaciones para la implementaciones de las acciones", "type": "Implementación y acompañamiento", "product": "Reuniones de acompañamiento", "owners": "Facultad/ Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "1459", "start": "2027-01-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "X", "X", "X", "X"]}, {"isPhase": false, "task": "Seguimiento de avances de las lineas de acción", "level": "Planes<br> de facultad", "detail": "Se estima realizar un seguimiento al avance de la linea de acción", "type": "Seguimiento", "product": "Seguimiento", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "1459", "start": "2027-01-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "X", "X", "X", "X"]}, {"isPhase": false, "task": "Seguimiento de indicadores intermedios", "level": "Planes<br> de facultad", "detail": "Seguimiento de indicadores intermedios", "type": "Seguimiento", "product": "Seguimiento", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "1459", "start": "2027-01-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "X", "X", "X", "X"]}, {"isPhase": false, "task": "Presentar avances sobre avance de indicadores intermedios", "level": "Planes<br> de facultad", "detail": "Presentación de avances en la estrategia de indicadores intermedios", "type": "Presentación", "product": "PPT y análisis del avance", "owners": "Coordinación Académica Estratégica/ Consejo de Facultad", "participants": "No aplica", "days": "1459", "start": "2027-01-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "X", "X", "X", "X"]}, {"isPhase": false, "task": "Seguimiento de indicadores estratégicos", "level": "PEI", "detail": "Se realiza seguimiento y se envía a las contrapartes", "type": "Seguimiento", "product": "PPT y análisis del avance", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "1459", "start": "2027-01-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "X", "X", "X", "X"]}, {"isPhase": false, "task": "Presentar resultado anual del avance de la estrategia", "level": "PEI<br> institucional", "detail": "Presentación anual sobre los avances de la estrategia durante el año", "type": "Presentación", "product": "PPT y análisis del avance general del año", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "1459", "start": "2027-01-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "X", "X", "X", "X"]}, {"isPhase": false, "task": "Evaluación intermedia 2028", "level": "PEI<br> institucional", "detail": "Se contempla la elaboración de  informe de evaluación intermedia que indique un estatus general y específico de puntos críticos", "type": "Evaluación intermedio", "product": "Informe intermedio", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "60", "start": "2028-03-01", "end": "2028-04-30", "marks": ["", "", "", "", "", "", "", "", "", "", "", "X", "", ""]}, {"isPhase": false, "task": "Ajustes a la estrategia ", "level": "PEI<br> institucional", "detail": "Ajustes en caso de existir luego de la evaluación", "type": "Ajustes", "product": "Acta ", "owners": "Comité de Rectoría", "participants": "No aplica", "days": "61", "start": "2028-04-30", "end": "2028-06-30", "marks": ["", "", "", "", "", "", "", "", "", "", "", "X", "", ""]}, {"isPhase": false, "task": "Cierre del PEI UAH 2030", "level": "PEI<br> institucional", "detail": "Al cierre del periodo se contempla la elaboración de año", "type": "Cierre", "product": "Informe Ejecutivo de Cierre del PEI", "owners": "Dirección de Gestión y Desarrollo", "participants": "No aplica", "days": "59", "start": "2030-11-01", "end": "2030-12-30", "marks": ["", "", "", "", "", "", "", "", "", "", "", "", "", "X"]}];
 
-    const isPhase = (row) => /^\d+\./.test((row.actividad || '').trim());
-    const parseDate = (value) => value ? new Date(value + 'T00:00:00') : null;
-    const formatDate = (value) => {
-      if (!value) return '-';
-      const d = parseDate(value);
-      return d.toLocaleDateString('es-CL');
-    };
-    const monthLabel = (date) => date.toLocaleDateString('es-CL', { month: 'short' }).replace('.', '').toUpperCase();
-    const quarterLabel = (date) => 'T' + (Math.floor(date.getMonth() / 3) + 1) + ' ' + date.getFullYear();
-
-    const data = rawData.map(r => ({
-      ...r,
-      isPhase: isPhase(r),
-      startDate: parseDate(r.inicio),
-      endDate: parseDate(r.termino)
-    }));
-
-    const nonPhase = data.filter(d => !d.isPhase && d.startDate && d.endDate);
-    const units = [...new Set(data.filter(d => !d.isPhase).map(d => d.unidad).filter(Boolean))].sort();
-
-    const unitFilter = document.getElementById('unitFilter');
     const searchInput = document.getElementById('searchInput');
-    const zoomFilter = document.getElementById('zoomFilter');
+    const ownerFilter = document.getElementById('ownerFilter');
+    const phaseFilter = document.getElementById('phaseFilter');
+    const resetBtn = document.getElementById('resetBtn');
     const ganttHead = document.getElementById('ganttHead');
     const ganttBody = document.getElementById('ganttBody');
     const emptyState = document.getElementById('emptyState');
 
-    units.forEach(unit => {
-      const option = document.createElement('option');
-      option.value = unit;
-      option.textContent = unit;
-      unitFilter.appendChild(option);
+    const activities = rows.filter(r => !r.isPhase);
+    const phases = rows.filter(r => r.isPhase).map(r => r.phase);
+    const owners = [...new Set(activities.map(r => r.owners).filter(Boolean))].sort();
+
+    owners.forEach(owner => {
+      const opt = document.createElement('option');
+      opt.value = owner;
+      opt.textContent = owner;
+      ownerFilter.appendChild(opt);
+    });
+    phases.forEach(phase => {
+      const opt = document.createElement('option');
+      opt.value = phase;
+      opt.textContent = phase;
+      phaseFilter.appendChild(opt);
     });
 
-    const minDate = new Date(Math.min(...nonPhase.map(d => d.startDate.getTime())));
-    const maxDate = new Date(Math.max(...nonPhase.map(d => d.endDate.getTime())));
-
-    document.getElementById('statActivities').textContent = data.filter(d => !d.isPhase).length;
-    document.getElementById('statPhases').textContent = data.filter(d => d.isPhase).length;
-    document.getElementById('statStart').textContent = minDate.toLocaleDateString('es-CL', { month: 'short', year: 'numeric' });
-    document.getElementById('statEnd').textContent = maxDate.toLocaleDateString('es-CL', { month: 'short', year: 'numeric' });
-
-    function generateTimeline(mode) {
-      const items = [];
-      const cursor = new Date(minDate.getFullYear(), mode === 'month' ? minDate.getMonth() : Math.floor(minDate.getMonth()/3)*3, 1);
-
-      while (cursor <= maxDate) {
-        if (mode === 'month') {
-          const start = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
-          const end = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
-          items.push({
-            key: `${cursor.getFullYear()}-${cursor.getMonth() + 1}`,
-            label: monthLabel(cursor),
-            group: String(cursor.getFullYear()),
-            start,
-            end
-          });
-          cursor.setMonth(cursor.getMonth() + 1);
-        } else {
-          const qStartMonth = Math.floor(cursor.getMonth()/3)*3;
-          const start = new Date(cursor.getFullYear(), qStartMonth, 1);
-          const end = new Date(cursor.getFullYear(), qStartMonth + 3, 0);
-          items.push({
-            key: `${cursor.getFullYear()}-Q${Math.floor(qStartMonth/3)+1}`,
-            label: quarterLabel(cursor),
-            group: String(cursor.getFullYear()),
-            start,
-            end
-          });
-          cursor.setMonth(cursor.getMonth() + 3);
-        }
-      }
-      return items;
+    function parseISO(s) {
+      return s ? new Date(s + 'T00:00:00') : null;
+    }
+    function fmtDate(s) {
+      return s ? parseISO(s).toLocaleDateString('es-CL') : '-';
     }
 
-    function buildHead(timeline) {
+    const dateRows = activities.filter(r => r.start && r.end);
+    const starts = dateRows.map(r => parseISO(r.start).getTime());
+    const ends = dateRows.map(r => parseISO(r.end).getTime());
+    const minDate = new Date(Math.min(...starts));
+    const maxDate = new Date(Math.max(...ends));
+
+    document.getElementById('statActivities').textContent = activities.length;
+    document.getElementById('statPhases').textContent = phases.length;
+    document.getElementById('statStart').textContent = minDate.toLocaleDateString('es-CL', { month:'short', year:'numeric' });
+    document.getElementById('statEnd').textContent = maxDate.toLocaleDateString('es-CL', { month:'short', year:'numeric' });
+
+    function buildHead() {
       ganttHead.innerHTML = '';
       const tr1 = document.createElement('tr');
       const tr2 = document.createElement('tr');
       tr2.className = 'months';
 
-      const stickyHeaders = [
-        ['Actividad', 'col-activity'],
-        ['Unidad encargada', 'col-unit'],
-        ['Días', 'col-days'],
-        ['Fecha inicio', 'col-start'],
-        ['Fecha término', 'col-end']
+      const fixed = [
+        ['Nombre de la tarea / actividad', 'col-a'],
+        ['Nivel', 'col-b'],
+        ['Detalle', 'col-c'],
+        ['Tipo de actividad', 'col-d'],
+        ['Producto esperado', 'col-e'],
+        ['Responsables', 'col-f'],
+        ['Participantes', 'col-g'],
+        ['Días', 'col-h'],
+        ['Fecha inicio', 'col-i'],
+        ['Fecha término', 'col-j'],
       ];
 
-      stickyHeaders.forEach(([label, cls]) => {
+      fixed.forEach(([label, cls]) => {
         const th = document.createElement('th');
-        th.className = `sticky-col sticky-head ${cls}`;
         th.rowSpan = 2;
+        th.className = `sticky sticky-head ${cls}`;
         th.textContent = label;
         tr1.appendChild(th);
       });
 
-      const grouped = timeline.reduce((acc, item) => {
-        acc[item.group] = acc[item.group] || [];
-        acc[item.group].push(item);
-        return acc;
-      }, {});
-
-      Object.entries(grouped).forEach(([year, items]) => {
+      const yearGroups = [
+        ['2026', 10],
+        ['2027', 1],
+        ['2028', 1],
+        ['2029', 1],
+        ['2030', 1],
+      ];
+      yearGroups.forEach(([year, span]) => {
         const th = document.createElement('th');
-        th.colSpan = items.length;
+        th.colSpan = span;
         th.textContent = year;
         tr1.appendChild(th);
       });
 
-      timeline.forEach(item => {
+      timeline.forEach(label => {
         const th = document.createElement('th');
-        th.textContent = item.label;
+        th.textContent = label;
         tr2.appendChild(th);
       });
 
@@ -443,124 +431,94 @@
       ganttHead.appendChild(tr2);
     }
 
-    function overlaps(aStart, aEnd, bStart, bEnd) {
-      return aStart <= bEnd && aEnd >= bStart;
-    }
-
-    function filterData() {
+    function getFilteredRows() {
       const q = searchInput.value.trim().toLowerCase();
-      const unit = unitFilter.value;
-      const out = [];
+      const owner = ownerFilter.value;
+      const phaseSelected = phaseFilter.value;
 
+      const result = [];
       let currentPhase = null;
-      let phaseHasChildren = false;
+      let phaseBuffer = [];
 
       function flushPhase() {
-        if (currentPhase && phaseHasChildren) out.push(currentPhase);
+        if (currentPhase && phaseBuffer.length) {
+          result.push(currentPhase, ...phaseBuffer);
+        }
       }
 
-      data.forEach(row => {
+      rows.forEach(row => {
         if (row.isPhase) {
           flushPhase();
           currentPhase = row;
-          phaseHasChildren = false;
+          phaseBuffer = [];
           return;
         }
 
-        const text = `${row.actividad} ${row.unidad}`.toLowerCase();
-        const matchesSearch = !q || text.includes(q);
-        const matchesUnit = !unit || row.unidad === unit;
+        const text = `${row.task} ${row.detail} ${row.type} ${row.product} ${row.owners} ${row.participants}`.toLowerCase();
+        const okSearch = !q || text.includes(q);
+        const okOwner = !owner || row.owners === owner;
+        const okPhase = !phaseSelected || currentPhase?.phase === phaseSelected;
 
-        if (matchesSearch && matchesUnit) {
-          if (currentPhase && !phaseHasChildren) phaseHasChildren = true;
-          out.push(row);
+        if (okSearch && okOwner && okPhase) {
+          phaseBuffer.push(row);
         }
       });
 
-      if (currentPhase && phaseHasChildren) {
-        const phaseIndex = data.lastIndexOf(currentPhase);
-        const alreadyIncluded = out.includes(currentPhase);
-        if (!alreadyIncluded) {
-          const idx = out.findIndex(r => !r.isPhase && data.indexOf(r) > phaseIndex);
-          if (idx === -1) out.push(currentPhase);
-          else out.splice(idx, 0, currentPhase);
-        }
-      }
-
-      // restore correct phase ordering
-      const finalRows = [];
-      let lastPhase = null;
-      data.forEach(src => {
-        if (src.isPhase && out.includes(src)) {
-          finalRows.push(src);
-          lastPhase = src;
-        } else if (!src.isPhase && out.includes(src)) {
-          if (lastPhase && !finalRows.includes(lastPhase)) finalRows.push(lastPhase);
-          finalRows.push(src);
-        }
-      });
-
-      return finalRows;
+      flushPhase();
+      return result;
     }
 
     function render() {
-      const timeline = generateTimeline(zoomFilter.value);
-      buildHead(timeline);
-
-      const rows = filterData();
+      buildHead();
       ganttBody.innerHTML = '';
+      const filtered = getFilteredRows();
 
-      if (!rows.length) {
+      if (!filtered.length) {
         emptyState.style.display = 'block';
         return;
       }
       emptyState.style.display = 'none';
 
-      rows.forEach(row => {
+      filtered.forEach(row => {
         if (row.isPhase) {
           const tr = document.createElement('tr');
           tr.className = 'phase-row';
           const td = document.createElement('td');
-          td.colSpan = 5 + timeline.length;
-          td.textContent = row.actividad;
+          td.colSpan = 24;
+          td.textContent = row.phase;
           tr.appendChild(td);
           ganttBody.appendChild(tr);
           return;
         }
 
         const tr = document.createElement('tr');
-
-        const cells = [
-          ['activity-title', row.actividad, 'col-activity'],
-          ['', row.unidad || '-', 'col-unit'],
-          ['center', row.dias ?? '-', 'col-days'],
-          ['center', formatDate(row.inicio), 'col-start'],
-          ['center', formatDate(row.termino), 'col-end']
+        const leftCells = [
+          ['col-a', `<div class="activity">${row.task}</div>`, true],
+          ['col-b', row.level || '-', false],
+          ['col-c', row.detail || '-', true],
+          ['col-d', row.type || '-', false],
+          ['col-e', row.product || '-', false],
+          ['col-f', row.owners || '-', false],
+          ['col-g', row.participants || '-', false],
+          ['col-h center', row.days || '-', false],
+          ['col-i center', fmtDate(row.start), false],
+          ['col-j center', fmtDate(row.end), false],
         ];
 
-        cells.forEach(([extraCls, value, stickyCls]) => {
+        leftCells.forEach(([cls, content, html]) => {
           const td = document.createElement('td');
-          td.className = `sticky-col ${stickyCls} ${extraCls}`;
-          if (stickyCls === 'col-activity') {
-            td.innerHTML = `<div class="activity-title">${value}</div>`;
-          } else {
-            td.textContent = value;
-          }
+          td.className = `sticky ${cls}`;
+          if (html) td.innerHTML = content;
+          else td.textContent = content;
           tr.appendChild(td);
         });
 
-        timeline.forEach((slot, index) => {
+        row.marks.forEach((mark, idx) => {
           const td = document.createElement('td');
-          td.className = 'timeline-cell' + ((index === timeline.length - 1 || slot.group !== timeline[Math.min(index + 1, timeline.length - 1)].group) ? ' year-end' : '');
-
-          if (row.startDate && row.endDate && overlaps(row.startDate, row.endDate, slot.start, slot.end)) {
-            const bar = document.createElement('div');
-            const startsBefore = row.startDate < slot.start;
-            const endsAfter = row.endDate > slot.end;
-            bar.className = 'bar' + (startsBefore ? ' continue-left' : '') + (endsAfter ? ' continue-right' : '');
-            td.appendChild(bar);
+          td.className = 'time-col' + (idx >= 10 ? ' year-end' : '');
+          if (mark && mark.toUpperCase() === 'X') {
+            td.innerHTML = '<span class="mark-chip">X</span>';
           }
-
           tr.appendChild(td);
         });
 
@@ -569,8 +527,14 @@
     }
 
     searchInput.addEventListener('input', render);
-    unitFilter.addEventListener('change', render);
-    zoomFilter.addEventListener('change', render);
+    ownerFilter.addEventListener('change', render);
+    phaseFilter.addEventListener('change', render);
+    resetBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      ownerFilter.value = '';
+      phaseFilter.value = '';
+      render();
+    });
 
     render();
   </script>
