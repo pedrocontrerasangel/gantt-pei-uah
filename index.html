@@ -704,8 +704,249 @@
     <div class="empty" id="emptyState">No se encontraron resultados con los filtros aplicados.</div>
   </div>
 </section>
-    
-  </main>
+
+<style>
+  .filters-top-card,
+  .mainpanel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .filters-top-card {
+    margin-bottom: 14px;
+  }
+
+  .filters-top {
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 180px;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .summary-inline {
+    padding: 0 18px 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .fullwidth-panel {
+    width: 100%;
+  }
+
+  .panel-head {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
+  }
+
+  .panel-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brand);
+  }
+
+  .panel-sub {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  input, select, button {
+    width: 100%;
+    border: 1px solid #d6dde8;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    background: white;
+    outline: none;
+  }
+
+  input:focus, select:focus {
+    border-color: #efb46b;
+    box-shadow: 0 0 0 4px rgba(217,119,6,.12);
+  }
+
+  button {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .summary-item {
+    border: 1px solid #eef1f5;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #fbfcfe;
+  }
+
+  .summary-item .k {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .summary-item .v {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brand);
+  }
+
+  .table-wrap {
+    overflow: auto;
+    max-height: 72vh;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 1500px;
+    width: max-content;
+    font-size: 12px;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--brand);
+    color: white;
+    padding: 12px 10px;
+    border-right: 1px solid rgba(255,255,255,.08);
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  thead tr.months th {
+    background: #21446d;
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+
+  tbody td {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: white;
+    padding: 10px 12px;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover td {
+    background: #fcfdff;
+  }
+
+  .phase-row td {
+    background: var(--phase) !important;
+    color: var(--phase-text);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  .col-a {
+    min-width: 430px;
+    max-width: 430px;
+    text-align: left;
+  }
+
+  .col-b {
+    min-width: 260px;
+    max-width: 260px;
+    text-align: left;
+  }
+
+  .activity {
+    font-weight: 700;
+    color: #243247;
+    line-height: 1.35;
+  }
+
+  .owner-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #f7f8fb;
+    border: 1px solid #eceff4;
+    color: #445066;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .time-col {
+    min-width: 78px;
+    width: 78px;
+    padding: 0;
+    position: relative;
+    background: linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
+  }
+
+  .year-end {
+    background: linear-gradient(180deg,#fff9f3 0%,#fff6ed 100%);
+  }
+
+  .bar-segment {
+    height: 22px;
+    margin: 10px 3px;
+    background: linear-gradient(135deg, #f4b26b 0%, #d97706 100%);
+    box-shadow: 0 4px 10px rgba(217,119,6,.18);
+  }
+
+  .bar-single {
+    border-radius: 999px;
+  }
+
+  .bar-start {
+    border-radius: 999px 0 0 999px;
+  }
+
+  .bar-middle {
+    border-radius: 0;
+  }
+
+  .bar-end {
+    border-radius: 0 999px 999px 0;
+  }
+
+  .empty {
+    display: none;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  @media (max-width: 1200px) {
+    .filters-top {
+      grid-template-columns: 1fr;
+    }
+
+    .summary-inline {
+      grid-template-columns: 1fr;
+    }
+
+    .col-a {
+      min-width: 320px;
+      max-width: 320px;
+    }
+
+    .col-b {
+      min-width: 220px;
+      max-width: 220px;
+    }
+
+    .time-col {
+      min-width: 68px;
+      width: 68px;
+    }
+  }
+</style>
 
 <script>
   const timeline = ["MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEPT", "OCT", "NOV", "DIC", "2027", "2028", "2029", "2030"];
@@ -805,7 +1046,7 @@
     fixed.forEach(([label, cls]) => {
       const th = document.createElement('th');
       th.rowSpan = 2;
-      th.className = `sticky sticky-head ${cls}`;
+      th.className = cls;
       th.textContent = label;
       tr1.appendChild(th);
     });
@@ -833,6 +1074,20 @@
 
     ganttHead.appendChild(tr1);
     ganttHead.appendChild(tr2);
+  }
+
+  function getSegmentClass(marks, idx) {
+    const current = String(marks[idx] || '').toUpperCase() === 'X';
+    if (!current) return '';
+
+    const prev = idx > 0 && String(marks[idx - 1] || '').toUpperCase() === 'X';
+    const next = idx < marks.length - 1 && String(marks[idx + 1] || '').toUpperCase() === 'X';
+
+    if (!prev && !next) return 'bar-single';
+    if (!prev && next) return 'bar-start';
+    if (prev && next) return 'bar-middle';
+    if (prev && !next) return 'bar-end';
+    return '';
   }
 
   function getFilteredRows() {
@@ -901,25 +1156,27 @@
 
       const tr = document.createElement('tr');
 
-      const leftCells = [
-        ['col-a', `<div class="activity">${row.task || '-'}</div>`, true],
-        ['col-b', `<span class="owner-chip">${row.owners || '-'}</span>`, true],
-      ];
+      const tdActivity = document.createElement('td');
+      tdActivity.className = 'col-a';
+      tdActivity.innerHTML = `<div class="activity">${row.task || '-'}</div>`;
+      tr.appendChild(tdActivity);
 
-      leftCells.forEach(([cls, content, isHtml]) => {
-        const td = document.createElement('td');
-        td.className = `sticky ${cls}`;
-        if (isHtml) td.innerHTML = content;
-        else td.textContent = content;
-        tr.appendChild(td);
-      });
+      const tdOwner = document.createElement('td');
+      tdOwner.className = 'col-b';
+      tdOwner.innerHTML = `<span class="owner-chip">${row.owners || '-'}</span>`;
+      tr.appendChild(tdOwner);
 
       row.marks.forEach((mark, idx) => {
         const td = document.createElement('td');
         td.className = 'time-col' + (idx >= 10 ? ' year-end' : '');
-        if (mark && String(mark).toUpperCase() === 'X') {
-          td.innerHTML = '<span class="mark-chip">X</span>';
+
+        const segmentClass = getSegmentClass(row.marks, idx);
+        if (segmentClass) {
+          const bar = document.createElement('div');
+          bar.className = `bar-segment ${segmentClass}`;
+          td.appendChild(bar);
         }
+
         tr.appendChild(td);
       });
 
